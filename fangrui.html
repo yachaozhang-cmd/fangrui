@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>记者作品集 | 人物特稿与非虚构写作</title>
+  <style>
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f9fafb;
+      --bg-tertiary: #f3f4f6;
+      --text-main: #111827;
+      --text-secondary: #4b5563;
+      --text-muted: #6b7280;
+      --accent: #1e3a8a; /* 深蓝，契合新闻/纪实调性 */
+      --accent-hover: #1e40af;
+      --border: #e5e7eb;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      --font-serif: "Noto Serif SC", "Source Han Serif CN", "Georgia", "Times New Roman", serif;
+      --font-sans: "Inter", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+      --container: 1200px;
+      --radius: 8px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 72px;
+    }
+    .brand {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--text-main);
+    }
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    nav a {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: color 0.2s;
+      position: relative;
+    }
+    nav a:hover { color: var(--accent); }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    nav a:hover::after { width: 100%; }
+
+    /* Hero */
+    .hero {
+      padding: 6rem 0 5rem;
+      background: var(--bg-secondary);
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+      color: var(--text-main);
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    /* Portfolio Section */
+    .portfolio { padding: 5rem 0; }
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 0.6rem 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      background: var(--bg-primary);
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .filter-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+    .card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .card-img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      background: var(--bg-tertiary);
+    }
+    .card-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .card:hover .card-img-wrapper img { transform: scale(1.03); }
+    
+    .card-content {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .tag {
+      background: var(--bg-tertiary);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .impact-badge {
+      background: #fee2e2;
+      color: #b91c1c;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      line-height: 1.35;
+      margin-bottom: 0.8rem;
+      color: var(--text-main);
+    }
+    .card-excerpt {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .read-btn {
+      align-self: flex-start;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .read-btn:hover { border-bottom-color: var(--accent); }
+    .read-btn::after { content: ' ↗'; }
+
+    /* About */
+    .about {
+      padding: 5rem 0;
+      background: var(--bg-secondary);
+      text-align: center;
+    }
+    .about-content {
+      max-width: 750px;
+      margin: 0 auto;
+    }
+    .about p {
+      margin-bottom: 1.2rem;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .about p:last-child { margin-bottom: 0; }
+
+    /* Footer */
+    footer {
+      padding: 3rem 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      background: var(--bg-primary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-inner { flex-direction: column; height: auto; padding: 1rem 0; gap: 1rem; }
+      nav ul { gap: 1.2rem; flex-wrap: wrap; justify-content: center; }
+      .grid { grid-template-columns: 1fr; }
+      .hero { padding: 4rem 0 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container header-inner">
+      <div class="brand">特稿纪实 · 作品集</div>
+      <nav>
+        <ul>
+          <li><a href="#portfolio" class="nav-link">全部作品</a></li>
+          <li><a href="#about" class="nav-link">关于作者</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>用脚步丈量现场，以笔触还原真实</h1>
+        <p>聚焦重大工程、时代人物与基层微光。多篇作品获主流平台全网首屏推送，累计转载超百次。</p>
+      </div>
+    </section>
+
+    <section id="portfolio" class="portfolio">
+      <div class="container">
+        <h2 class="section-title">人物特稿与深度报道</h2>
+        <div class="filter-bar">
+          <button class="filter-btn active" data-filter="all">全部</button>
+          <button class="filter-btn" data-filter="人物">人物特写</button>
+          <button class="filter-btn" data-filter="工程">重大工程</button>
+          <button class="filter-btn" data-filter="基层">基层纪实</button>
+          <button class="filter-btn" data-filter="传承">红色传承</button>
+          <button class="filter-btn" data-filter="两会">两会/公益</button>
+        </div>
+        <div class="grid" id="article-grid"></div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="container about-content">
+        <h2 class="section-title">关于作者</h2>
+        <p>深耕非虚构写作与人物特稿多年。始终相信，宏大的时代叙事最终要落在具体的“人”身上。从港珠澳大桥的沉管安装到文莱孤岛的基建落地，从八宝山送别科学巨匠到县城基层的扶贫干部，我习惯用沉浸式的田野调查与克制的白描笔法，呈现复杂现实中的个体命运与时代切面。</p>
+        <p>作品多次获得中央重点新闻网站、商业门户及头部政务公众号转载推荐。如果您有采写合作、专栏约稿或出版意向，欢迎通过邮件联系。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 人物特稿作品集. 保留所有权利.</p>
+      <p style="margin-top: 0.4rem;">本页面为作品展示演示，所有链接均跳转至原发布平台。</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 数据源
+      const articles = [
+        { title: "揭秘港珠澳大桥背后的故事：他为了一根沉管，96小时无休", url: "https://mp.weixin.qq.com/s/kz5CCAJe5sZUQCg9zfQLLg", cat: "工程", impact: "20+公众号转载", excerpt: "深入工程一线，记录建设者在极限压力下的技术攻坚与无声坚守。" },
+        { title: "出彩新时代|打造“世界级石化中心”连接文莱孤岛的“中国情”", url: "https://news.youth.cn/gn/201811/t20181119_11790151.htm", cat: "工程", impact: "人民网/搜狐等转载", excerpt: "跨越国界的基建合作，如何改变一座孤岛的经济命脉与生活图景。" },
+        { title: "如瀑挽联，八宝山送别“中国核司令”程开甲，现场画面让人心碎", url: "https://mp.weixin.qq.com/s/SkKih2VZZ2a2_9VkFtZdog", cat: "人物", impact: "60+平台账号转载", excerpt: "人民日报、共青团中央等权威媒体联动。记录一代科学巨匠的谢幕与不朽。" },
+        { title: "您好，灵丘：志智双扶，我们不来虚的!", url: "https://news.youth.cn/wztt/201812/t20181230_11830555.htm", cat: "基层", impact: null, excerpt: "摒弃形式主义，用实地调研与产业落地破解深度贫困县的振兴难题。" },
+        { title: "您好，毕节|招蜂村官、种药妹、苦荞姐，他们的真实身份却是……", url: "https://news.youth.cn/gn/201812/t20181231_11831086.htm", cat: "基层", impact: null, excerpt: "聚焦返乡青年与基层干部，看普通人如何用双手重塑乡土经济。" },
+        { title: "中国人的故事|人大代表张宝艳：温暖守护宝贝们的回家路", url: "https://mp.weixin.qq.com/s/zW3v7pe908ml2CVUcODGQQ", cat: "两会", impact: null, excerpt: "从寻亲公益到立法推动，一位母亲如何将个人悲痛转化为国家行动。" },
+        { title: "两会大家谈｜人大代表张宝艳：我的公益进行时", url: "https://baijiahao.baidu.com/s?id=1627092297485065262&wfr=spider&for=pc", cat: "两会", impact: null, excerpt: "公益路上的机制探索与人性微光，记录打拐防拐的基层实践。" },
+        { title: "一条微博超20万赞！人大代表的这个“建议”赢得网友“100个支持”！", url: "https://sdxw.iqilu.com/w/article/YS0yMS01MzkyMTU1.html", cat: "两会", impact: "全网热议", excerpt: "贴近民生的硬核提案如何引发现象级共鸣，展现代表履职的精准度。" },
+        { title: "中国人的故事|让我们缅怀他，真正用信念撑起生命尊严的军人", url: "https://mp.weixin.qq.com/s/bQ12YpdVzQ2SVgoyNwSi6Q", cat: "人物", impact: "双首页推送", excerpt: "刷屏腾讯、百度、凤凰等商网首页。还原一位老兵用信仰铸就的生命丰碑。" },
+        { title: "“一带一路”上的青春“建证”：世界地标里的“中国建造”", url: "http://news.youth.cn/gn/201904/t20190423_11934891.htm", cat: "工程", impact: "4篇全网首屏推送", excerpt: "跟随青年工程师出海，记录中国制造在海外落地的汗水与文化碰撞。" },
+        { title: "中国人的故事|跨越百年的青春回答：爱国是青春不变的底色", url: "http://news.youth.cn/wztt/201905/t20190506_11945118.htm", cat: "传承", impact: null, excerpt: "从五四运动到新时代，不同时代的青年如何用行动诠释家国情怀。" },
+        { title: "黄宏将军：建议重视民间收藏，用文物讲好“一带一路”故事", url: "http://news.youth.cn/gn/201905/t20190504_11943600.htm", cat: "两会", impact: null, excerpt: "从军事视角到文化出海，探讨文物收藏在国际传播中的独特价值。" },
+        { title: "青松已成林不见儿郎归", url: "http://news.youth.cn/gn/201906/t20190616_11983763.htm", cat: "传承", impact: null, excerpt: "寻访烈士后代与守陵人，在岁月更迭中打捞被遗忘的英雄记忆。" },
+        { title: "他8岁送父长征，再也没盼回父亲身影", url: "http://news.youth.cn/jsxw/201906/t20190613_11980952.htm", cat: "传承", impact: null, excerpt: "口述历史与实地走访交织，再现长征路上普通家庭的牺牲与等待。" },
+        { title: "不同的时代，相同的选择：在瑞金红色文化感染一代代青年", url: "http://news.youth.cn/gn/201906/t20190614_11982129.htm", cat: "传承", impact: "学习强国专栏首屏", excerpt: "红色基因如何在当代青年心中生根发芽，跨越时空的精神共振。" },
+        { title: "【我爱这片蓝色的国土】打造多彩美丽湾区广州海洋经济建设开启新征程", url: "http://news.youth.cn/gn/201907/t20190716_12010392.htm", cat: "工程", impact: null, excerpt: "聚焦粤港澳大湾区蓝色经济转型，记录海洋产业与生态保护的平衡之道。" },
+        { title: "中国人的故事|强国脊梁：“当代毕昇”王选", url: "http://news.youth.cn/gn/201908/t20190813_12039746.htm", cat: "人物", impact: null, excerpt: "从汉字激光照排到自主创新，回溯科学家如何突破技术封锁。" },
+        { title: "曹洪欣：把中医药宝贵财富继承好发展好利用好，使命在肩", url: "http://qclz.youth.cn/znl/201907/t20190731_12026009.htm", cat: "人物", impact: null, excerpt: "名中医的传承与创新之路，探讨传统医学在现代医疗体系中的定位。" },
+        { title: "中国人的故事丨“稀土之父”徐光宪：稀土紧紧连着我和祖国", url: "https://t.m.youth.cn/transfer/index/url/news.youth.cn/gn/201906/t20190605_11973932.htm", cat: "人物", impact: null, excerpt: "放弃海外优渥条件毅然归国，用一生钻研奠定中国稀土工业基石。" }
+      ];
+
+      const grid = document.getElementById('article-grid');
+      const placeholderImg = 'https://bailian-bmp-pre.oss-cn-hangzhou.aliyuncs.com/public/system_agent/PlaceHolder.png';
+      let activeFilter = 'all';
+
+      // 渲染函数
+      const renderArticles = () => {
+        grid.innerHTML = '';
+        const filtered = activeFilter === 'all' 
+          ? articles 
+          : articles.filter(a => a.cat === activeFilter);
+
+        if (filtered.length === 0) {
+          grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">暂无该分类下的文章</p>';
+          return;
+        }
+
+        filtered.forEach(item => {
+          const card = document.createElement('article');
+          card.className = 'card';
+          card.innerHTML = `
+            <div class="card-img-wrapper">
+              <img src="${placeholderImg}" alt="受访者/现场图片" loading="lazy">
+            </div>
+            <div class="card-content">
+              <div class="card-meta">
+                <span class="tag">${item.cat}</span>
+                ${item.impact ? `<span class="impact-badge">${item.impact}</span>` : ''}
+              </div>
+              <h3>${item.title}</h3>
+              <p class="card-excerpt">${item.excerpt}</p>
+              <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="read-btn" aria-label="阅读全文">阅读原文</a>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      };
+
+      // 初始化渲染
+      renderArticles();
+
+      // 过滤按钮事件绑定
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeFilter = btn.dataset.filter;
+          renderArticles();
+        });
+      });
+
+      // 平滑滚动导航
+      const navLinks = document.querySelectorAll('.nav-link');
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = link.getAttribute('href').substring(1);
+          const targetSection = document.getElementById(targetId);
+          if (targetSection) {
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+
+      // 图片加载失败 fallback
+      grid.addEventListener('error', (e) => {
+        if (e.target.tagName === 'IMG') {
+          e.target.src = placeholderImg;
+        }
+      }, true);
+    });
+  </script>
+</body>
+</html>
